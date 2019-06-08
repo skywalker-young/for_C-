@@ -75,3 +75,4 @@ int main()
 	find(b,a,arr);
 	cout << "arr[1]:"<<arr[1] << endl;
 }
+//
