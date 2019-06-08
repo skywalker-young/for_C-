@@ -1,62 +1,41 @@
+//
 #include "pch.h"
+#include <string>
 #include <iostream>
 #include <vector>
-#include <string>
 #include <thread>
-#include <algorithm>
 using namespace std;
 
-void  threadCallback(int x, string str)
+void foo(int x)
 {
-	cout << "passed number=" << x << endl;
-	cout << "passed string=" << str << endl;
-}
-
-class Wallet {
-
-	int mMoney;
-public :
-	Wallet():mMoney(0){}
-	int getMoney() { return mMoney; }
-	void addMoney(int money)
+	//int x = 3;
+	for (int i = 0; i < x; i++)
 	{
-		for (int i=0;i<money;i++)
-		{
-			mMoney++;
-		}
+		cout << "using foo:"<<this_thread::get_id()<<'\n';
 	}
-
-};
-int testMultithreadWallet() {
-	Wallet walletObject;
-	std::vector<std::thread> threads;
-	for (int i = 0; i < 5; i++) {
-		threads.push_back(std::thread(&Wallet::addMoney, &walletObject, 100));
-	}
-
-	for (int i = 0; i < 5; i++) {
-		threads.at(i).join();
-	}
-
-	return walletObject.getMoney();
 }
 
-int main()
+class thread_obj
 {
-	/*int x = 10;
-	string str = "sample string";
-	thread threadObj(threadCallback, x, str);
-	cout<<threadObj.get_id()<<"\n";
-	threadObj.join();
-	thread threadObj2(threadCallback,15, "xychef");
-	cout << threadObj2.get_id() <<"\n" ;
-	threadObj2.join();
-	*/
-	int val = 0;
-	for (int k = 0; k < 100; k++) {
-		if ((val = testMultithreadWallet()) != 500) {
-			cout << "Error at count = " << k << " Money in Wallet = " << val << std::endl;
+public: int y;
+		void operator()(int x) //将类对象作为参数，需要重载运算符()
+		{
+			for (int i = 0; i < x; i++)
+				cout << "using class" << this_thread::get_id() << '\n';
 		}
-	}
-	 
+};
+ 
+int main()
+{  
+	cout <<"using main:"<< this_thread::get_id() << '\n';
+	//函数传参
+	thread th1(foo,2);
+	//start thread t1
+	//wait for t1 to finish
+	th1.join();
+	//detach挂起，运行完th2后再执行th1
+	thread th2(thread_obj(), 1);
+	th2.join();
+	cout << "ending main:" << this_thread::get_id() << '\n';
+	
 }
