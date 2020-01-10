@@ -1,0 +1,33 @@
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
+void vector101()
+{
+	cout<<"this is vector101 file"<<endl;
+
+	string x("Hi,Peter,I'am sick, Zplease buy some drugs for me.");
+
+	int common;		
+	string y=(",");
+	cout<<x<<endl;
+
+	common=x.find(y,0);
+	cout<<"逗号位置："<<common<<endl;//第一个逗号
+
+	cout<<"xjxjxjxjjx: \n"<<x[common+3]<<endl;
+	int length=x.size();
+	int count=0; 
+	int tmp=0;
+	cout<<"x的长度是： "<<length<<endl;
+	int a=0;//寻找第三个逗号的索引
+	while (a<3)
+	{
+		tmp=x.find(y,count);
+		count=tmp+1;
+	a=a+1;
+	cout<<"tmp: "<<tmp<<endl;
+	}
+	cout<<"comma at: "<<count<<endl;//19
+	cout<<"num count is :"<<x[count+1]<<endl;//count+1=20->Z;
+}
